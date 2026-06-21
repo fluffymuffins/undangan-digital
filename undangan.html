@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Undangan Pernikahan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+
+  <button id="music-btn" onclick="toggleMusic()" title="Musik">♪</button>
+  <audio id="bg-music" loop></audio>
+
+  <!-- COVER -->
+  <section id="cover">
+    <div class="cover-inner">
+      <div class="ornament">✦ ─── ─── ✦ ─── ─── ✦</div>
+      <p class="bismillah" id="el-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</p>
+      <p class="label-kecil">Undangan Pernikahan</p>
+      <h1 class="nama-mempelai" id="nama-mempelai-cover">Budi <em>&</em> Rani</h1>
+      <p class="tanggal-cover" id="tanggal-cover">Sabtu, 14 Februari 2026</p>
+      <div class="ornament">✦ ─── ─── ✦ ─── ─── ✦</div>
+      <div class="kepada-box">
+        <p class="kepada-label">Kepada Yth.</p>
+        <p class="kepada-nama" id="nama-tamu">Tamu Undangan</p>
+      </div>
+      <button class="btn-buka" onclick="bukaUndangan()">Buka Undangan &darr;</button>
+    </div>
+  </section>
+
+  <div id="konten" class="hidden">
+
+    <!-- MEMPELAI (selalu tampil) -->
+    <section class="section">
+      <div class="section-header">
+        <div class="ornament-line"></div>
+        <h2>Mempelai</h2>
+        <div class="ornament-line"></div>
+      </div>
+      <div class="mempelai-grid">
+        <div class="mempelai-card reveal">
+          <!-- foto-bulat: isi foto atau ilustrasi via JS -->
+          <div class="foto-bulat" id="foto-pria"></div>
+          <h3 id="pria-nama-full">Ahmad Budi Santoso</h3>
+          <p class="gelar">Putra pertama dari</p>
+          <p class="ortu" id="pria-ortu">Bapak H. Santoso & Ibu Hj. Sri Wahyuni</p>
+        </div>
+        <div class="mempelai-ampersand reveal">♥</div>
+        <div class="mempelai-card reveal">
+          <div class="foto-bulat" id="foto-wanita"></div>
+          <h3 id="wanita-nama-full">Rani Kusuma Dewi</h3>
+          <p class="gelar">Putri pertama dari</p>
+          <p class="ortu" id="wanita-ortu">Bapak H. Kusuma & Ibu Hj. Dewi Rahayu</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUOTES (toggleable) -->
+    <section class="section section-dark" id="section-quotes">
+      <div class="section-header">
+        <div class="ornament-line"></div>
+        <h2 id="quotes-section-title">Firman Allah</h2>
+        <div class="ornament-line"></div>
+      </div>
+      <div class="quotes-wrap reveal">
+        <div class="quotes-ornament">❝</div>
+        <p class="quotes-text" id="quotes-text">
+          وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا
+        </p>
+        <p class="quotes-translation" id="quotes-translation-text"></p>
+        <p class="quotes-source" id="quotes-source">QS. Ar-Rum: 21</p>
+      </div>
+    </section>
+
+    <!-- ACARA (selalu tampil) -->
+    <section class="section">
+      <div class="section-header">
+        <div class="ornament-line"></div>
+        <h2>Detail Acara</h2>
+        <div class="ornament-line"></div>
+      </div>
+      <div class="acara-grid">
+        <div class="acara-card reveal">
+          <p class="acara-label">Akad Nikah</p>
+          <div class="acara-gem">◆</div>
+          <p class="acara-hari"    id="akad-hari">Sabtu</p>
+          <p class="acara-tanggal" id="akad-tanggal">14 Februari 2026</p>
+          <p class="acara-jam"     id="akad-jam">08.00 WIB</p>
+          <div class="acara-garis"></div>
+          <p class="acara-tempat"  id="akad-tempat">Masjid Agung Al-Ikhlas</p>
+          <p class="acara-alamat"  id="akad-alamat">Jl. Sudirman No. 1, Jakarta Pusat</p>
+        </div>
+        <div class="acara-card reveal">
+          <p class="acara-label">Resepsi</p>
+          <div class="acara-gem">◆</div>
+          <p class="acara-hari"    id="resepsi-hari">Sabtu</p>
+          <p class="acara-tanggal" id="resepsi-tanggal">14 Februari 2026</p>
+          <p class="acara-jam"     id="resepsi-jam">11.00 WIB</p>
+          <div class="acara-garis"></div>
+          <p class="acara-tempat"  id="resepsi-tempat">Ballroom Hotel Grand Sahid</p>
+          <p class="acara-alamat"  id="resepsi-alamat">Jl. Jend. Sudirman Kav. 86, Jakarta</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOVE STORY (toggleable) -->
+    <section class="section section-dark" id="section-love-story">
+      <div class="section-header">
+        <div class="ornament-line"></div>
+        <h2>Love Story</h2>
+        <div class="ornament-line"></div>
+      </div>
+      <div class="love-story-wrap reveal">
+        <div class="love-story-ornament">♥</div>
+        <div class="love-story-text" id="love-story-text"></div>
+      </div>
+    </section>
+
+    <!-- COUNTDOWN (toggleable) -->
+    <section class="section" id="section-countdown">
+      <div class="section-header">
+        <div class="ornament-line"></div>
+        <h2>Menuju Hari Bahagia</h2>
+        <div class="ornament-line"></div>
+      </div>
+      <div class="countdown-grid">
+        <div class="countdown-box reveal">
+          <span class="countdown-num" id="cd-hari">00</span>
+          <span class="countdown-label">Hari</span>
+        </div>
+        <div class="countdown-box reveal">
+          <span class="countdown-num" id="cd-jam">00</span>
+          <span class="countdown-label">Jam</span>
+        </div>
+        <div class="countdown-box reveal">
+          <span class="countdown-num" id="cd-menit">00</span>
+          <span class="countdown-label">Menit</span>
+        </div>
+        <div class="countdown-box reveal">
+          <span class="countdown-num" id="cd-detik">00</span>
+          <span class="countdown-label">Detik</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALERI (toggleable) -->
+    <section class="section section-dark" id="section-galeri">
+      <div class="section-header">
+        <div class="ornament-line"></div>
+        <h2>Galeri</h2>
+        <div class="ornament-line"></div>
+      </div>
+      <div class="galeri-grid" id="galeri-grid"></div>
+    </section>
+
+    <!-- VIDEO (toggleable) -->
+    <section class="section" id="section-video">
+      <div class="section-header">
+        <div class="ornament-line"></div>
+        <h2>Video Prewed</h2>
+        <div class="ornament-line"></div>
+      </div>
+      <div class="video-wrap reveal">
+        <iframe id="video-iframe" src="" frameborder="0"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <!-- MAPS (toggleable) -->
+    <section class="section" id="section-maps">
+      <div class="section-header">
+        <div class="ornament-line"></div>
+        <h2>Lokasi</h2>
+        <div class="ornament-line"></div>
+      </div>
+      <div class="maps-wrap reveal">
+        <iframe id="maps-iframe"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.8195613!3d-6.1944491!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5d2e764b12d%3A0x3d2ad6e1e0e9bcc8!2sGrand%20Sahid%20Jaya!5e0!3m2!1sid!2sid!4v1716000000000"
+          width="100%" height="280" style="border:0;display:block"
+          allowfullscreen loading="lazy"></iframe>
+        <div class="maps-info">
+          <p class="maps-nama"   id="maps-nama">Ballroom Hotel Grand Sahid</p>
+          <p class="maps-alamat" id="maps-alamat">Jl. Jend. Sudirman Kav. 86, Jakarta</p>
+          <a class="btn-maps" id="btn-maps"
+            href="https://maps.google.com" target="_blank">
+            Buka di Google Maps ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GIFT (toggleable) -->
+    <section class="section section-dark" id="section-gift">
+      <div class="section-header">
+        <div class="ornament-line"></div>
+        <h2>Wedding Gift</h2>
+        <div class="ornament-line"></div>
+      </div>
+      <p class="gift-intro">
+        Doa restu kalian adalah hadiah terbaik. Namun bagi yang ingin memberikan
+        tanda kasih, kami dengan rendah hati menerima melalui:
+      </p>
+      <div class="gift-wrap">
+        <div class="gift-card reveal" id="gift-bank-card">
+          <p class="gift-label">Transfer Bank</p>
+          <div class="gift-gem">◆</div>
+          <p class="gift-bank-name"      id="gift-bank-name">Nama Bank</p>
+          <p class="gift-account-number" id="gift-account-number">0000 0000 0000</p>
+          <p class="gift-account-name"   id="gift-account-name">a.n. Nama Penerima</p>
+          <button class="btn-copy-gift"
+            onclick="copyGift('gift-account-number', this)">
+            Salin Nomor Rekening
+          </button>
+        </div>
+        <div class="gift-card reveal" id="gift-address-card">
+          <p class="gift-label">Kirim Hadiah</p>
+          <div class="gift-gem">◆</div>
+          <p class="gift-address" id="gift-address">Alamat pengiriman hadiah</p>
+          <button class="btn-copy-gift" onclick="copyGift('gift-address', this)">
+            Salin Alamat
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RSVP (toggleable) -->
+    <section class="section" id="section-rsvp">
+      <div class="section-header">
+        <div class="ornament-line"></div>
+        <h2>Konfirmasi Kehadiran</h2>
+        <div class="ornament-line"></div>
+      </div>
+      <form class="form-box reveal" id="form-rsvp" onsubmit="kirimRSVP(event)">
+        <div class="form-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="rsvp-nama"
+            placeholder="Masukkan nama kamu" required/>
+        </div>
+        <div class="form-group">
+          <label>Kehadiran</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="hadir" value="hadir" required/> Hadir
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="hadir" value="ragu"/> Mungkin
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="hadir" value="tidak"/> Tidak Hadir
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Jumlah Tamu</label>
+          <input type="number" id="rsvp-jumlah" min="1" max="10" value="1"/>
+        </div>
+        <div class="form-group">
+          <label>Pesan (opsional)</label>
+          <textarea id="rsvp-pesan" rows="3"
+            placeholder="Tulis pesanmu..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Kirim Konfirmasi</button>
+        <p id="rsvp-status"></p>
+      </form>
+    </section>
+
+    <!-- BUKU TAMU (toggleable) -->
+    <section class="section section-dark" id="section-wishes">
+      <div class="section-header">
+        <div class="ornament-line"></div>
+        <h2>Buku Tamu</h2>
+        <div class="ornament-line"></div>
+      </div>
+      <form class="form-box reveal" id="form-ucapan" onsubmit="kirimUcapan(event)">
+        <div class="form-group">
+          <label>Nama</label>
+          <input type="text" id="ucapan-nama"
+            placeholder="Nama kamu" required/>
+        </div>
+        <div class="form-group">
+          <label>Ucapan & Doa</label>
+          <textarea id="ucapan-pesan" rows="3"
+            placeholder="Tulis ucapan dan doamu..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Kirim Ucapan</button>
+      </form>
+      <div class="ucapan-list" id="daftar-ucapan"></div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="ornament">✦ ─── ─── ✦ ─── ─── ✦</div>
+      <p class="footer-nama"    id="footer-nama">Budi & Rani</p>
+      <p class="footer-tanggal" id="footer-tanggal">14 · 02 · 2026</p>
+      <p class="footer-kredit">Made with ♥ using Undangan Digital</p>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/ilustrasi.js"></script>
+  <script src="assets/js/undangan.js"></script>
+</body>
+</html>

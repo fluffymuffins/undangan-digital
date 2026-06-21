@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel Editor – Undangan Digital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+
+  <nav class="editor-nav">
+    <span class="editor-nav-logo">Undangan Digital</span>
+    <div class="editor-nav-right">
+      <span class="paket-badge" id="paket-badge">Basic</span>
+      <span class="editor-email" id="editor-email"></span>
+      <button class="btn-logout" onclick="logout()">Keluar</button>
+    </div>
+  </nav>
+
+  <div class="editor-wrap">
+
+    <aside class="editor-sidebar">
+      <button class="tab-btn active" onclick="bukaTab('mempelai', this)">Mempelai</button>
+      <button class="tab-btn" onclick="bukaTab('acara', this)">Acara</button>
+      <button class="tab-btn" onclick="bukaTab('konten', this)">Konten</button>
+      <button class="tab-btn" onclick="bukaTab('tampilan', this)">Tampilan</button>
+      <button class="tab-btn" onclick="bukaTab('tamu', this)">Daftar Tamu</button>
+      <button class="tab-btn" onclick="bukaTab('galeri', this)">Galeri</button>
+
+      <div class="sidebar-divider">
+        <span class="sidebar-divider-label">Gold+</span>
+      </div>
+
+      <button class="tab-btn" id="tab-btn-lokasi" onclick="bukaTab('lokasi', this)">Lokasi</button>
+      <button class="tab-btn" id="tab-btn-musik"  onclick="bukaTab('musik', this)">Musik</button>
+
+      <div class="sidebar-divider">
+        <span class="sidebar-divider-label">Premium</span>
+      </div>
+
+      <button class="tab-btn" id="tab-btn-statistik"  onclick="bukaTab('statistik', this)">Statistik</button>
+      <button class="tab-btn" id="tab-btn-pengaturan" onclick="bukaTab('pengaturan', this)">Pengaturan</button>
+
+      <div class="sidebar-divider"></div>
+      <button class="tab-btn" onclick="bukaTab('akun', this)">Akun</button>
+      <div class="sidebar-divider"></div>
+
+      <div class="link-box">
+        <p class="link-label">Link Undangan</p>
+        <input type="text" class="link-input" id="link-undangan" readonly/>
+        <button class="btn-copy" onclick="copyLink()">Salin Link</button>
+      </div>
+      <a class="btn-preview" id="btn-preview" href="#" target="_blank">
+        Lihat Undangan ↗
+      </a>
+    </aside>
+
+    <main class="editor-main">
+
+      <div id="lock-banner" class="lock-banner" style="display:none">
+        <span class="lock-banner-icon">🔒</span>
+        <div>
+          <span id="lock-message">Undangan terkunci.</span>
+          <span> Hubungi admin untuk perpanjangan.</span>
+        </div>
+      </div>
+
+      <div id="save-status"></div>
+
+      <!-- TAB: MEMPELAI -->
+      <div class="tab-panel active" id="tab-mempelai">
+        <h2 class="panel-title">Data Mempelai</h2>
+
+        <!-- FOTO / ILUSTRASI MEMPELAI -->
+        <div class="panel-section">
+          <h3 class="panel-section-title">Foto Mempelai</h3>
+
+          <!-- BASIC: Pilih ilustrasi -->
+          <div id="panel-ilustrasi">
+            <p class="panel-desc">
+              Pilih ilustrasi yang sesuai untuk masing-masing mempelai.
+            </p>
+            <div class="ilustrasi-section">
+              <p class="ilustrasi-section-title">Mempelai Pria</p>
+              <div class="ilustrasi-picker" id="picker-pria"></div>
+            </div>
+            <div class="ilustrasi-section" style="margin-top:24px">
+              <p class="ilustrasi-section-title">Mempelai Wanita</p>
+              <div class="ilustrasi-picker" id="picker-wanita"></div>
+            </div>
+            <button class="btn-simpan"
+              onclick="simpanIlustrasi()"
+              style="margin-top:24px">
+              Simpan Pilihan Ilustrasi
+            </button>
+          </div>
+
+          <!-- PREMIUM: Upload foto asli -->
+          <div id="panel-foto-upload" style="display:none">
+            <p class="panel-desc">
+              Upload foto profil masing-masing mempelai.
+              Format JPG/PNG, maksimal 2MB.
+            </p>
+            <div class="form-row">
+              <div class="foto-upload-item">
+                <p class="foto-upload-label">Foto Pria</p>
+                <div class="foto-preview-wrap" id="preview-pria">
+                  <div class="foto-placeholder">👤</div>
+                </div>
+                <input type="file" id="input-foto-pria"
+                  accept="image/*" style="display:none"
+                  onchange="uploadFotoMempelai('pria', this)"/>
+                <button class="btn-upload-foto"
+                  onclick="document.getElementById('input-foto-pria').click()">
+                  Upload Foto
+                </button>
+                <button class="btn-hapus-foto-mp"
+                  id="btn-hapus-pria"
+                  onclick="hapusFotoMempelai('pria')"
+                  style="display:none">
+                  Hapus Foto
+                </button>
+              </div>
+              <div class="foto-upload-item">
+                <p class="foto-upload-label">Foto Wanita</p>
+                <div class="foto-preview-wrap" id="preview-wanita">
+                  <div class="foto-placeholder">👤</div>
+                </div>
+                <input type="file" id="input-foto-wanita"
+                  accept="image/*" style="display:none"
+                  onchange="uploadFotoMempelai('wanita', this)"/>
+                <button class="btn-upload-foto"
+                  onclick="document.getElementById('input-foto-wanita').click()">
+                  Upload Foto
+                </button>
+                <button class="btn-hapus-foto-mp"
+                  id="btn-hapus-wanita"
+                  onclick="hapusFotoMempelai('wanita')"
+                  style="display:none">
+                  Hapus Foto
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DATA NAMA -->
+        <div class="panel-section">
+          <h3 class="panel-section-title">Mempelai Pria</h3>
+          <div class="form-group">
+            <label>Nama Panggilan</label>
+            <input type="text" id="nama-pria" placeholder="cth: Rizky"/>
+          </div>
+          <div class="form-group">
+            <label>Nama Lengkap</label>
+            <input type="text" id="nama-pria-full"
+              placeholder="cth: Muhammad Rizky Pratama"/>
+          </div>
+          <div class="form-group">
+            <label>Nama Orang Tua</label>
+            <input type="text" id="ortu-pria"
+              placeholder="cth: Bapak H. Pratama & Ibu Hj. Sari"/>
+          </div>
+        </div>
+        <div class="panel-section">
+          <h3 class="panel-section-title">Mempelai Wanita</h3>
+          <div class="form-group">
+            <label>Nama Panggilan</label>
+            <input type="text" id="nama-wanita" placeholder="cth: Nabila"/>
+          </div>
+          <div class="form-group">
+            <label>Nama Lengkap</label>
+            <input type="text" id="nama-wanita-full"
+              placeholder="cth: Nabila Putri Maharani"/>
+          </div>
+          <div class="form-group">
+            <label>Nama Orang Tua</label>
+            <input type="text" id="ortu-wanita"
+              placeholder="cth: Bapak H. Maharani & Ibu Hj. Fitri"/>
+          </div>
+        </div>
+        <button class="btn-simpan" onclick="simpanMempelai()">
+          Simpan Data Mempelai
+        </button>
+      </div>
+
+      <!-- TAB: ACARA -->
+      <div class="tab-panel" id="tab-acara">
+        <h2 class="panel-title">Detail Acara</h2>
+        <div class="panel-section">
+          <h3 class="panel-section-title">Akad Nikah</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tanggal</label>
+              <input type="date" id="tanggal-akad"/>
+            </div>
+            <div class="form-group">
+              <label>Jam (cth: 09.00)</label>
+              <input type="text" id="jam-akad" placeholder="09.00"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Nama Tempat</label>
+            <input type="text" id="tempat-akad" placeholder="cth: Masjid Istiqlal"/>
+          </div>
+          <div class="form-group">
+            <label>Alamat Lengkap</label>
+            <input type="text" id="alamat-akad"
+              placeholder="cth: Jl. Taman Wijaya Kusuma..."/>
+          </div>
+        </div>
+        <div class="panel-section">
+          <h3 class="panel-section-title">Resepsi</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tanggal</label>
+              <input type="date" id="tanggal-resepsi"/>
+            </div>
+            <div class="form-group">
+              <label>Jam (cth: 12.00)</label>
+              <input type="text" id="jam-resepsi" placeholder="12.00"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Nama Tempat</label>
+            <input type="text" id="tempat-resepsi"
+              placeholder="cth: The Ritz-Carlton Jakarta"/>
+          </div>
+          <div class="form-group">
+            <label>Alamat Lengkap</label>
+            <input type="text" id="alamat-resepsi"
+              placeholder="cth: Jl. DR. Ide Anak Agung..."/>
+          </div>
+        </div>
+        <button class="btn-simpan" onclick="simpanAcara()">Simpan Perubahan</button>
+      </div>
+
+      <!-- TAB: KONTEN -->
+      <div class="tab-panel" id="tab-konten">
+        <h2 class="panel-title">Konten Undangan</h2>
+        <div class="panel-section">
+          <h3 class="panel-section-title">Tampilkan Section</h3>
+          <p class="panel-desc">Aktifkan atau nonaktifkan section undangan.</p>
+          <div class="toggle-list">
+            <div class="toggle-item">
+              <div>
+                <div class="toggle-item-label">Bismillah</div>
+                <div class="toggle-item-hint">Teks Arab di bagian cover</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="tog-bismillah" checked/>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-item">
+              <div>
+                <div class="toggle-item-label">Quotes / Ayat</div>
+                <div class="toggle-item-hint">Kutipan atau ayat suci</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="tog-quotes" checked/>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-item">
+              <div>
+                <div class="toggle-item-label">Love Story</div>
+                <div class="toggle-item-hint">Cerita perjalanan cinta</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="tog-love-story"/>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-item">
+              <div>
+                <div class="toggle-item-label">Countdown</div>
+                <div class="toggle-item-hint">Hitung mundur menuju hari H</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="tog-countdown" checked/>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-item">
+              <div>
+                <div class="toggle-item-label">Galeri Foto</div>
+                <div class="toggle-item-hint">Section foto mempelai</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="tog-galeri" checked/>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-item">
+              <div>
+                <div class="toggle-item-label">Video Prewed</div>
+                <div class="toggle-item-hint">Embed video YouTube</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="tog-video"/>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-item">
+              <div>
+                <div class="toggle-item-label">Lokasi / Maps</div>
+                <div class="toggle-item-hint">Peta lokasi acara</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="tog-maps" checked/>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-item">
+              <div>
+                <div class="toggle-item-label">Wedding Gift</div>
+                <div class="toggle-item-hint">Rekening & alamat hadiah</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="tog-gift"/>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-item">
+              <div>
+                <div class="toggle-item-label">Form RSVP</div>
+                <div class="toggle-item-hint">Konfirmasi kehadiran tamu</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="tog-rsvp" checked/>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-item">
+              <div>
+                <div class="toggle-item-label">Buku Tamu</div>
+                <div class="toggle-item-hint">Ucapan & doa dari tamu</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="tog-wishes" checked/>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3 class="panel-section-title">Quotes / Ayat Suci</h3>
+          <div class="form-group">
+            <label>Judul Section</label>
+            <input type="text" id="quotes-title"
+              placeholder="cth: Firman Allah / Kata Mutiara"/>
+            <p class="form-hint">Ganti sesuai keyakinan, misal "Kata Mutiara" untuk non-Muslim.</p>
+          </div>
+          <div class="form-group">
+            <label>Tampilkan Teks Arab</label>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:6px">
+              <label class="toggle-switch">
+                <input type="checkbox" id="tog-quotes-arabic" checked/>
+                <span class="toggle-slider"></span>
+              </label>
+              <span style="font-size:12px;color:var(--teks-redup)">
+                Matikan jika tidak ada teks Arab
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Teks Utama (Arab / Latin)</label>
+            <textarea id="quotes-text" rows="3"
+              placeholder="cth: وَمِنْ آيَاتِهِ ..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Terjemahan (opsional)</label>
+            <textarea id="quotes-translation" rows="2"
+              placeholder="cth: Dan di antara tanda-tanda kebesaran-Nya..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Sumber</label>
+            <input type="text" id="quotes-source"
+              placeholder="cth: QS. Ar-Rum: 21"/>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3 class="panel-section-title">Love Story</h3>
+          <div class="form-group">
+            <label>Cerita</label>
+            <textarea id="love-story" rows="6"
+              placeholder="Ceritakan perjalanan cinta kalian..."></textarea>
+            <p class="form-hint">Aktifkan toggle Love Story agar section ini tampil.</p>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3 class="panel-section-title">Wedding Gift</h3>
+          <div class="form-group">
+            <label>Nama Bank</label>
+            <input type="text" id="gift-bank-name"
+              placeholder="cth: BCA / Mandiri / BNI"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nomor Rekening</label>
+              <input type="text" id="gift-account-number"
+                placeholder="cth: 1234567890"/>
+            </div>
+            <div class="form-group">
+              <label>Atas Nama</label>
+              <input type="text" id="gift-account-name"
+                placeholder="cth: Rizky Pratama"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Alamat Kirim Hadiah (opsional)</label>
+            <textarea id="gift-address" rows="3"
+              placeholder="cth: Jl. Melati No. 10, Jakarta Selatan 12345"></textarea>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3 class="panel-section-title">Video Prewed</h3>
+          <div class="form-group">
+            <label>URL YouTube</label>
+            <input type="url" id="video-url"
+              placeholder="cth: https://www.youtube.com/watch?v=..."/>
+            <p class="form-hint">Paste link YouTube biasa — otomatis diubah ke format embed.</p>
+          </div>
+        </div>
+
+        <button class="btn-simpan" onclick="simpanKonten()">
+          Simpan Semua Konten
+        </button>
+      </div>
+
+      <!-- TAB: TAMPILAN -->
+      <div class="tab-panel" id="tab-tampilan">
+        <h2 class="panel-title">Tampilan & Warna</h2>
+        <div class="panel-section">
+          <h3 class="panel-section-title">Pilih Palet Warna</h3>
+          <p class="panel-desc">Kombinasi warna yang sudah dikurasi untuk undangan.</p>
+          <div class="palette-grid" id="palette-grid"></div>
+          <button class="btn-simpan" id="btn-ekstrak"
+            onclick="ekstrakWarnaDariFoto()"
+            style="padding:10px 24px;font-size:10px;margin-bottom:0">
+            ✦ Ekstrak Warna dari Foto Galeri
+          </button>
+          <p class="form-hint" style="margin-top:8px">
+            Upload foto ke Galeri terlebih dahulu.
+          </p>
+        </div>
+        <div class="panel-section">
+          <h3 class="panel-section-title">Atur Warna Manual</h3>
+          <div class="color-picker-group">
+            <div class="color-picker-item">
+              <label>Background</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="color-primary-pick"
+                  oninput="syncColorInput('primary', this.value)"/>
+                <input type="text" id="color-primary-hex"
+                  maxlength="7" placeholder="#0f0e0c"
+                  oninput="syncColorPick('primary', this.value)"/>
+              </div>
+            </div>
+            <div class="color-picker-item">
+              <label>Aksen Utama</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="color-secondary-pick"
+                  oninput="syncColorInput('secondary', this.value)"/>
+                <input type="text" id="color-secondary-hex"
+                  maxlength="7" placeholder="#c9a96e"
+                  oninput="syncColorPick('secondary', this.value)"/>
+              </div>
+            </div>
+            <div class="color-picker-item">
+              <label>Aksen Terang</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="color-accent-pick"
+                  oninput="syncColorInput('accent', this.value)"/>
+                <input type="text" id="color-accent-hex"
+                  maxlength="7" placeholder="#e8d5a3"
+                  oninput="syncColorPick('accent', this.value)"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-simpan" onclick="simpanTampilan()">Simpan Tampilan</button>
+      </div>
+
+      <!-- TAB: DAFTAR TAMU -->
+      <div class="tab-panel" id="tab-tamu">
+        <h2 class="panel-title">Daftar Tamu</h2>
+        <p class="panel-desc">Generate link personal untuk tiap tamu.</p>
+        <div class="panel-section">
+          <div class="form-row">
+            <div class="form-group" style="flex:1">
+              <label>Nama Tamu</label>
+              <input type="text" id="input-tamu"
+                placeholder="cth: Siti Rahayu"
+                onkeydown="if(event.key==='Enter'){tambahTamu()}"/>
+            </div>
+            <button class="btn-tambah-tamu" onclick="tambahTamu()">+ Tambah</button>
+          </div>
+        </div>
+        <div class="tamu-list" id="tamu-list"></div>
+      </div>
+
+      <!-- TAB: GALERI -->
+      <div class="tab-panel" id="tab-galeri">
+        <h2 class="panel-title">Galeri Foto</h2>
+
+        <!-- BASIC: Locked -->
+        <div id="galeri-locked-msg" style="display:none">
+          <div class="upgrade-box">
+            <div class="upgrade-icon">🖼</div>
+            <h3 class="upgrade-title">Fitur Galeri Foto</h3>
+            <p class="upgrade-desc">
+              Upload dan tampilkan foto prewedding di undanganmu.
+              Tersedia di paket <strong>Premium</strong>.
+            </p>
+            <p class="upgrade-hint">Hubungi admin untuk upgrade paket.</p>
+          </div>
+        </div>
+
+        <!-- PREMIUM: Upload -->
+        <div id="galeri-upload-panel">
+          <p class="panel-desc">Upload foto prewedding. Maks. 6 foto, 2MB per foto.</p>
+          <div class="galeri-upload-area" id="upload-area"
+            onclick="document.getElementById('input-foto').click()">
+            <input type="file" id="input-foto" accept="image/*"
+              style="display:none" onchange="uploadFoto(this)"/>
+            <div class="upload-icon">📷</div>
+            <p class="upload-teks">Klik untuk upload foto</p>
+            <p class="upload-hint">JPG, PNG, WEBP · Maks. 2MB</p>
+          </div>
+          <div class="galeri-editor-grid" id="galeri-editor-grid"></div>
+        </div>
+      </div>
+
+      <!-- TAB: LOKASI -->
+      <div class="tab-panel" id="tab-lokasi">
+        <h2 class="panel-title">Lokasi & Maps</h2>
+        <div class="panel-section">
+          <div class="form-group">
+            <label>Link Google Maps</label>
+            <input type="url" id="maps-url-edit"
+              placeholder="https://maps.google.com/..."/>
+          </div>
+          <div class="form-group">
+            <label>Embed Maps (iframe)</label>
+            <textarea id="maps-embed-edit" rows="4"
+              placeholder="Paste kode iframe dari Google Maps..."></textarea>
+            <p class="form-hint">
+              Google Maps → Share → Embed a map → salin kode iframe.
+            </p>
+          </div>
+        </div>
+        <button class="btn-simpan" onclick="simpanLokasi()">Simpan Perubahan</button>
+      </div>
+
+      <!-- TAB: MUSIK -->
+      <div class="tab-panel" id="tab-musik">
+        <h2 class="panel-title">Musik Latar</h2>
+        <div class="panel-section">
+          <div class="form-group">
+            <label>URL File Musik</label>
+            <input type="url" id="musik-url-edit"
+              placeholder="https://example.com/lagu.mp3"/>
+          </div>
+          <div id="musik-preview-wrap" style="display:none">
+            <audio id="musik-preview" controls
+              style="width:100%;margin-bottom:4px"></audio>
+          </div>
+        </div>
+        <button class="btn-simpan" onclick="simpanMusik()">Simpan Perubahan</button>
+      </div>
+
+      <!-- TAB: STATISTIK (Premium) -->
+      <div class="tab-panel" id="tab-statistik">
+        <h2 class="panel-title">Statistik Tamu</h2>
+        <div class="stat-grid" id="stat-grid"></div>
+        <div class="panel-section" style="margin-top:24px">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:center;margin-bottom:20px">
+            <h3 class="panel-section-title" style="margin-bottom:0">Daftar RSVP</h3>
+            <button class="btn-simpan" onclick="exportRSVP()"
+              style="padding:8px 20px;font-size:10px">
+              Export CSV
+            </button>
+          </div>
+          <div id="rsvp-list-editor"></div>
+        </div>
+      </div>
+
+      <!-- TAB: PENGATURAN (Premium) -->
+      <div class="tab-panel" id="tab-pengaturan">
+        <h2 class="panel-title">Pengaturan</h2>
+        <div class="panel-section">
+          <h3 class="panel-section-title">Custom URL Undangan</h3>
+          <div class="form-group">
+            <label>Slug URL</label>
+            <div class="slug-input-wrap">
+              <span class="slug-prefix">?slug=</span>
+              <input type="text" id="input-slug" placeholder="nama-mempelai"/>
+            </div>
+            <p class="form-hint">Huruf kecil, angka, tanda hubung saja.</p>
+          </div>
+        </div>
+        <button class="btn-simpan" onclick="simpanSlug()">Simpan URL</button>
+      </div>
+
+      <!-- TAB: AKUN -->
+      <div class="tab-panel" id="tab-akun">
+        <h2 class="panel-title">Akun Saya</h2>
+        <div class="panel-section">
+          <h3 class="panel-section-title">Ganti Password</h3>
+          <p class="panel-desc">Disarankan ganti dari password awal yang diberikan admin.</p>
+          <form id="form-ganti-password" onsubmit="gantiPassword(event)">
+            <div class="form-group">
+              <label>Password Baru</label>
+              <input type="password" id="password-baru"
+                placeholder="Minimal 8 karakter" minlength="8" required
+                oninput="cekKekuatanPassword(this.value)"/>
+              <div class="password-strength-wrap">
+                <div class="password-strength" id="password-strength-bar"></div>
+              </div>
+              <p class="form-hint" id="password-strength-label"></p>
+            </div>
+            <div class="form-group">
+              <label>Konfirmasi Password</label>
+              <input type="password" id="password-konfirmasi"
+                placeholder="Ulangi password baru" minlength="8" required/>
+            </div>
+            <button type="submit" class="btn-simpan">Ganti Password</button>
+          </form>
+        </div>
+        <div class="panel-section" style="margin-top:24px">
+          <h3 class="panel-section-title">Informasi Akun</h3>
+          <div class="akun-info-row">
+            <span class="akun-info-label">Email</span>
+            <span class="akun-info-value" id="akun-email">—</span>
+          </div>
+          <div class="akun-info-row">
+            <span class="akun-info-label">Paket</span>
+            <span class="akun-info-value" id="akun-paket">—</span>
+          </div>
+          <div class="akun-info-row">
+            <span class="akun-info-label">Akses Hingga</span>
+            <span class="akun-info-value" id="akun-expires">Selamanya</span>
+          </div>
+          <div class="akun-info-row">
+            <span class="akun-info-label">Status Edit</span>
+            <span class="akun-info-value" id="akun-lock-status">Aktif</span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/ilustrasi.js"></script>
+  <script src="assets/js/edit.js"></script>
+</body>
+</html>

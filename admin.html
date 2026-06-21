@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel – Undangan Digital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+
+  <nav class="editor-nav">
+    <span class="editor-nav-logo">Undangan Digital</span>
+    <div class="editor-nav-right">
+      <span class="paket-badge paket-premium">Admin</span>
+      <span class="editor-email" id="admin-email"></span>
+      <button class="btn-logout" onclick="logout()">Keluar</button>
+    </div>
+  </nav>
+
+  <div class="editor-wrap">
+
+    <aside class="editor-sidebar">
+      <button class="tab-btn active" onclick="bukaTab('dashboard', this)">Dashboard</button>
+      <button class="tab-btn" onclick="bukaTab('klien', this)">Klien</button>
+    </aside>
+
+    <main class="editor-main">
+      <div id="save-status"></div>
+
+      <!-- TAB: DASHBOARD -->
+      <div class="tab-panel active" id="tab-dashboard">
+        <h2 class="panel-title">Dashboard</h2>
+        <div class="stat-grid" id="admin-stat-grid"></div>
+        <div class="panel-section" style="margin-top:28px">
+          <h3 class="panel-section-title">Klien Terbaru</h3>
+          <div id="recent-klien">
+            <p class="tamu-kosong">Memuat...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: KLIEN -->
+      <div class="tab-panel" id="tab-klien">
+        <h2 class="panel-title">Kelola Klien</h2>
+
+        <div class="panel-section">
+          <h3 class="panel-section-title">Buat Klien Baru</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email Klien</label>
+              <input type="email" id="new-email" placeholder="klien@email.com"/>
+            </div>
+            <div class="form-group">
+              <label>Paket</label>
+              <select id="new-paket" class="form-select">
+                <option value="basic">Basic (Tanpa Foto)</option>
+                <option value="premium">Premium (Dengan Foto)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nama Mempelai Pria</label>
+              <input type="text" id="new-pria" placeholder="cth: Rizky"/>
+            </div>
+            <div class="form-group">
+              <label>Nama Mempelai Wanita</label>
+              <input type="text" id="new-wanita" placeholder="cth: Nabila"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Akses Hingga (opsional)</label>
+            <input type="date" id="new-expires"
+              style="background:rgba(201,169,110,0.05);border:1px solid var(--border);
+                     padding:12px 16px;color:var(--teks);width:100%;font-family:var(--sans);
+                     font-size:14px;outline:none"/>
+            <p class="form-hint">Kosongkan untuk akses selamanya.</p>
+          </div>
+          <button class="btn-simpan" id="btn-buat-klien" onclick="buatKlien()">
+            Buat Akun Klien
+          </button>
+        </div>
+
+        <div class="panel-section">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:center;margin-bottom:20px">
+            <h3 class="panel-section-title" style="margin-bottom:0">Semua Klien</h3>
+            <button class="btn-simpan" onclick="muatKlien()"
+              style="padding:8px 20px;font-size:10px">
+              Refresh
+            </button>
+          </div>
+          <div id="klien-list">
+            <p class="tamu-kosong">Buka tab Klien untuk memuat data.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL: KREDENSIAL -->
+  <div class="modal-overlay hidden" id="modal-kredensial">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">✓ Akun Berhasil Dibuat</h3>
+        <p class="modal-sub">Simpan kredensial ini — password tidak akan ditampilkan lagi</p>
+      </div>
+      <div class="kredensial-box">
+        <div class="kred-row">
+          <span class="kred-label">Email</span>
+          <div class="kred-value-wrap">
+            <span class="kred-value" id="kred-email"></span>
+            <button class="btn-kred-copy"
+              onclick="copyKred('kred-email', this)">Salin</button>
+          </div>
+        </div>
+        <div class="kred-row">
+          <span class="kred-label">Password</span>
+          <div class="kred-value-wrap">
+            <span class="kred-value" id="kred-password"></span>
+            <button class="btn-kred-copy"
+              onclick="copyKred('kred-password', this)">Salin</button>
+          </div>
+        </div>
+        <div class="kred-row">
+          <span class="kred-label">Paket</span>
+          <div class="kred-value-wrap">
+            <span class="kred-value" id="kred-paket"></span>
+          </div>
+        </div>
+        <div class="kred-row">
+          <span class="kred-label">Link</span>
+          <div class="kred-value-wrap">
+            <span class="kred-value kred-small" id="kred-link"></span>
+            <button class="btn-kred-copy"
+              onclick="copyKred('kred-link', this)">Salin</button>
+          </div>
+        </div>
+      </div>
+      <div class="kred-actions">
+        <button class="btn-simpan" onclick="copySemuaKredensial()" style="flex:1">
+          Salin Semua (untuk WA)
+        </button>
+        <button class="btn-logout"
+          onclick="tutupModal('modal-kredensial');muatKlien()"
+          style="flex:1">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: RESET PASSWORD -->
+  <div class="modal-overlay hidden" id="modal-reset">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Reset Password</h3>
+        <p class="modal-sub" id="reset-sub">Password baru untuk klien</p>
+      </div>
+      <div class="kredensial-box">
+        <div class="kred-row">
+          <span class="kred-label">Password Baru</span>
+          <div class="kred-value-wrap">
+            <span class="kred-value" id="reset-password"></span>
+            <button class="btn-kred-copy"
+              onclick="copyKred('reset-password', this)">Salin</button>
+          </div>
+        </div>
+      </div>
+      <div class="kred-actions">
+        <button class="btn-logout" onclick="tutupModal('modal-reset')" style="flex:1">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>

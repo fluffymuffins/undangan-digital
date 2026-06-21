@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login – Undangan Digital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+
+  <div class="auth-wrap">
+
+    <div class="auth-box">
+
+      <!-- Logo / Judul -->
+      <div class="auth-header">
+        <div class="ornament">✦ ─── ✦ ─── ✦</div>
+        <h1 class="auth-title">Undangan Digital</h1>
+        <p class="auth-sub">Masuk ke panel klien</p>
+        <div class="ornament">✦ ─── ✦ ─── ✦</div>
+      </div>
+
+      <!-- Form Login -->
+      <form id="form-login" onsubmit="login(event)">
+
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            id="login-email"
+            placeholder="email@kamu.com"
+            required
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            id="login-password"
+            placeholder="••••••••"
+            required
+            autocomplete="current-password"
+          />
+        </div>
+
+        <p id="login-error"></p>
+
+        <button type="submit" class="btn-submit" id="btn-login">
+          Masuk
+        </button>
+
+      </form>
+
+      <p class="auth-footer-note">
+        Belum punya akses? Hubungi kami untuk pemesanan.
+      </p>
+
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script src="assets/js/login.js"></script>
+</body>
+</html>
