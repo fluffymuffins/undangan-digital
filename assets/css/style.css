@@ -172,7 +172,11 @@ body {
    ============================================ */
 .section { padding: 80px 24px; }
 
-.section-dark { background: var(--bg2); }
+.section-dark {
+  background: var(--bg2);
+  background-image: radial-gradient(circle, rgba(201,169,110,0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
 
 .section-header {
   display: flex;
@@ -195,8 +199,11 @@ body {
 .ornament-line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold-gelap), transparent);
+  background: linear-gradient(to right, transparent, rgba(201,169,110,0.35), transparent);
 }
+
+/* SVG ornament divider responsive */
+.ornament svg { max-width: 100%; height: auto; }
 
 /* ============================================
    MEMPELAI
