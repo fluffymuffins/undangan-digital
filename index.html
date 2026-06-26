@@ -1,15 +1,814 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Undangan Digital</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Undangan Digital — Undangan Nikah Online Elegan</title>
+  <meta name="description" content="Platform undangan pernikahan digital yang elegan dan interaktif. Tersedia paket Basic (ilustrasi) dan Premium (foto asli)."/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <style>
+    /* ====================================================
+       KATALOG — LANDING PAGE STYLES
+       ==================================================== */
+
+    /* NAV */
+    .catalog-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+      background: rgba(15,14,12,0.93);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .catalog-nav-logo {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+    .btn-login-nav {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--teks-redup);
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 8px 20px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-login-nav:hover { color: var(--gold); border-color: var(--gold-gelap); }
+
+    /* HERO */
+    .catalog-hero {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 100%, rgba(175,169,236,0.04) 0%, transparent 50%),
+        var(--bg);
+    }
+    .hero-inner { max-width: 680px; width: 100%; }
+    .hero-label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 7px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 16px 0 24px;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(44px, 9vw, 76px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--teks);
+      margin-bottom: 24px;
+    }
+    .hero-title em {
+      display: block;
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-desc {
+      font-size: 15px;
+      color: var(--teks-redup);
+      line-height: 1.9;
+      max-width: 480px;
+      margin: 0 auto 44px;
+    }
+    .hero-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-cta-primary {
+      padding: 14px 48px;
+      background: var(--gold);
+      color: var(--bg);
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      border: 1px solid var(--gold);
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s;
+    }
+    .btn-cta-primary:hover { background: var(--gold-terang); border-color: var(--gold-terang); }
+    .btn-cta-secondary {
+      padding: 14px 48px;
+      background: transparent;
+      color: var(--gold);
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      border: 1px solid var(--gold);
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s;
+    }
+    .btn-cta-secondary:hover { background: rgba(201,169,110,0.1); }
+    .hero-scroll-hint {
+      margin-top: 64px;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--teks-redup);
+      opacity: 0.5;
+    }
+
+    /* CATALOG SECTIONS */
+    .catalog-section { padding: 96px 24px; }
+    .catalog-section-dark { background: var(--bg2); }
+    .catalog-section-title {
+      font-family: var(--serif);
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 300;
+      color: var(--teks);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .catalog-section-sub {
+      font-size: 13px;
+      color: var(--teks-redup);
+      text-align: center;
+      max-width: 480px;
+      margin: 0 auto 60px;
+      line-height: 1.8;
+    }
+
+    /* DEMO MOCKUP */
+    .demo-frame {
+      max-width: 340px;
+      margin: 0 auto;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    }
+    .demo-frame-bar {
+      height: 36px;
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 6px;
+    }
+    .demo-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+    .demo-url-bar {
+      flex: 1;
+      height: 18px;
+      background: rgba(201,169,110,0.06);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      margin: 0 8px;
+    }
+    .demo-content {
+      background: var(--bg);
+      padding: 36px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .demo-bismillah {
+      font-family: var(--serif);
+      font-size: 20px;
+      color: var(--gold);
+      margin: 4px 0;
+    }
+    .demo-label {
+      font-size: 9px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--teks-redup);
+    }
+    .demo-nama {
+      font-family: var(--serif);
+      font-size: 38px;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--teks);
+      margin: 4px 0;
+    }
+    .demo-nama em { display: block; font-style: italic; color: var(--gold); font-size: 0.72em; }
+    .demo-tanggal {
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--teks-redup);
+    }
+    .demo-kepada {
+      margin-top: 8px;
+      padding: 14px 20px;
+      border: 1px solid var(--border);
+      background: rgba(201,169,110,0.04);
+      width: 100%;
+    }
+    .demo-kepada-label {
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--teks-redup);
+      margin-bottom: 4px;
+    }
+    .demo-kepada-nama {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-style: italic;
+      color: var(--gold-terang);
+    }
+    .demo-btn {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 10px 32px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-family: var(--sans);
+    }
+
+    /* FITUR HIGHLIGHTS */
+    .fitur-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .fitur-item {
+      border: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      background: rgba(201,169,110,0.02);
+    }
+    .fitur-icon { font-size: 32px; margin-bottom: 16px; }
+    .fitur-title {
+      font-family: var(--serif);
+      font-size: 19px;
+      font-weight: 300;
+      color: var(--gold-terang);
+      margin-bottom: 10px;
+    }
+    .fitur-desc {
+      font-size: 12px;
+      color: var(--teks-redup);
+      line-height: 1.8;
+    }
+
+    /* PAKET CARDS */
+    .paket-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    .paket-card {
+      border: 1px solid var(--border);
+      padding: 40px 32px;
+      background: var(--bg2);
+      position: relative;
+    }
+    .paket-card-premium { border-color: rgba(175,169,236,0.35); }
+    .paket-badge-catalog {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+    .badge-basic   { color: var(--teks-redup); border: 1px solid var(--teks-redup); opacity: 0.7; }
+    .badge-premium { color: #AFA9EC;            border: 1px solid #534AB7; }
+    .paket-card-title {
+      font-family: var(--serif);
+      font-size: 30px;
+      font-weight: 300;
+      color: var(--teks);
+      margin-bottom: 8px;
+    }
+    .paket-card-desc {
+      font-size: 13px;
+      color: var(--teks-redup);
+      line-height: 1.7;
+      margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .paket-fitur-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .paket-fitur-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--teks-redup);
+      line-height: 1.5;
+    }
+    .fitur-check { color: var(--gold); flex-shrink: 0; font-size: 10px; margin-top: 2px; }
+    .fitur-check-purple { color: #AFA9EC; }
+    .fitur-separator {
+      font-family: var(--serif);
+      font-size: 10px;
+      color: #AFA9EC;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.8;
+      padding: 8px 0 0;
+      display: block;
+    }
+    .popular-tag {
+      position: absolute;
+      top: -1px;
+      right: 24px;
+      background: #AFA9EC;
+      color: var(--bg);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      font-family: var(--sans);
+      font-weight: 500;
+    }
+    .btn-pesan {
+      display: block;
+      text-align: center;
+      padding: 14px;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-pesan-basic  { border: 1px solid var(--gold); color: var(--gold); }
+    .btn-pesan-basic:hover  { background: var(--gold); color: var(--bg); }
+    .btn-pesan-premium { border: 1px solid #AFA9EC; color: #AFA9EC; }
+    .btn-pesan-premium:hover { background: #AFA9EC; color: var(--bg); }
+
+    /* CARA PESAN */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .step-item { text-align: center; padding: 16px 8px; }
+    .step-num {
+      font-family: var(--serif);
+      font-size: 54px;
+      font-weight: 300;
+      color: var(--gold-gelap);
+      line-height: 1;
+      margin-bottom: 20px;
+      opacity: 0.45;
+    }
+    .step-title {
+      font-family: var(--serif);
+      font-size: 18px;
+      color: var(--teks);
+      margin-bottom: 8px;
+    }
+    .step-desc {
+      font-size: 12px;
+      color: var(--teks-redup);
+      line-height: 1.8;
+    }
+
+    /* CTA ORDER */
+    .cta-section {
+      padding: 96px 24px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.07) 0%, transparent 60%),
+        var(--bg);
+    }
+    .cta-title {
+      font-family: var(--serif);
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 300;
+      color: var(--teks);
+      margin: 24px 0 16px;
+    }
+    .cta-desc {
+      font-size: 13px;
+      color: var(--teks-redup);
+      max-width: 400px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 44px;
+      background: var(--gold);
+      color: var(--bg);
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--gold);
+      transition: all 0.3s;
+    }
+    .btn-wa:hover { background: var(--gold-terang); border-color: var(--gold-terang); }
+
+    /* CATALOG FOOTER */
+    .catalog-footer {
+      text-align: center;
+      padding: 56px 24px;
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .catalog-footer-logo {
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .catalog-footer-tagline {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--teks-redup);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .catalog-footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .catalog-footer-links a {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teks-redup);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .catalog-footer-links a:hover { color: var(--gold); }
+    .catalog-footer-copy {
+      font-size: 11px;
+      color: var(--teks-redup);
+      opacity: 0.4;
+      letter-spacing: 1px;
+    }
+
+    /* DIVIDER ORNAMENT */
+    .ornament-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+    .ornament-divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-gelap), transparent);
+    }
+    .ornament-divider-gem {
+      color: var(--gold-gelap);
+      font-size: 10px;
+      opacity: 0.6;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .catalog-nav   { padding: 0 20px; }
+      .paket-grid    { grid-template-columns: 1fr; max-width: 440px; }
+      .fitur-grid    { grid-template-columns: 1fr 1fr; }
+      .steps-grid    { grid-template-columns: 1fr 1fr; gap: 16px; }
+    }
+    @media (max-width: 480px) {
+      .fitur-grid    { grid-template-columns: 1fr; }
+      .hero-cta      { flex-direction: column; align-items: center; }
+      .cta-btns      { flex-direction: column; align-items: center; }
+      .btn-cta-primary,
+      .btn-cta-secondary,
+      .btn-wa        { width: 100%; text-align: center; box-sizing: border-box; }
+      .catalog-nav-logo { font-size: 18px; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Proyek undangan digital — coming soon</h1>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="assets/js/supabase.js"></script>
+  <!-- ===================== NAV ===================== -->
+  <nav class="catalog-nav">
+    <span class="catalog-nav-logo">Undangan Digital</span>
+    <a href="login.html" class="btn-login-nav">Login Klien</a>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="catalog-hero">
+    <div class="hero-inner">
+      <div class="ornament">✦ ─── ✦ ─── ✦</div>
+      <span class="hero-label">Platform Undangan Pernikahan Online</span>
+      <h1 class="hero-title">
+        Abadikan Momen Istimewa<br/>
+        <em>dengan Elegan</em>
+      </h1>
+      <p class="hero-desc">
+        Undangan pernikahan digital yang indah, interaktif, dan mudah disesuaikan.
+        Sebarkan ke semua tamu dengan satu link personal yang terasa istimewa.
+      </p>
+      <div class="hero-cta">
+        <a href="#paket" class="btn-cta-primary">Lihat Paket</a>
+        <a href="undangan.html" class="btn-cta-secondary" target="_blank">Lihat Demo ↗</a>
+      </div>
+      <p class="hero-scroll-hint">↓ scroll untuk lihat paket</p>
+    </div>
+  </section>
+
+  <!-- ===================== DEMO MOCKUP ===================== -->
+  <section class="catalog-section catalog-section-dark" style="padding-bottom:0">
+    <h2 class="catalog-section-title">Tampilan Undangan</h2>
+    <p class="catalog-section-sub">
+      Desain bertema elegan gelap dengan aksen emas — palet warna bisa disesuaikan sesukamu.
+    </p>
+    <div class="demo-frame">
+      <div class="demo-frame-bar">
+        <div class="demo-dot"></div>
+        <div class="demo-dot"></div>
+        <div class="demo-dot"></div>
+        <div class="demo-url-bar"></div>
+      </div>
+      <div class="demo-content">
+        <div class="ornament" style="font-size:10px">✦ ─── ─── ✦ ─── ─── ✦</div>
+        <p class="demo-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</p>
+        <p class="demo-label">Undangan Pernikahan</p>
+        <h2 class="demo-nama">Budi <em>&</em> Rani</h2>
+        <p class="demo-tanggal">Sabtu, 14 Februari 2026</p>
+        <div class="ornament" style="font-size:10px">✦ ─── ─── ✦ ─── ─── ✦</div>
+        <div class="demo-kepada">
+          <p class="demo-kepada-label">Kepada Yth.</p>
+          <p class="demo-kepada-nama">Siti Rahayu</p>
+        </div>
+        <div class="demo-btn">Buka Undangan ↓</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== KENAPA DIGITAL ===================== -->
+  <section class="catalog-section catalog-section-dark">
+    <h2 class="catalog-section-title">Kenapa Undangan Digital?</h2>
+    <p class="catalog-section-sub">
+      Hemat kertas, hemat biaya, dan bisa diedit kapan saja sebelum hari H.
+    </p>
+    <div class="fitur-grid">
+      <div class="fitur-item">
+        <div class="fitur-icon">💌</div>
+        <p class="fitur-title">Link Personal per Tamu</p>
+        <p class="fitur-desc">
+          Setiap tamu mendapat link dengan namanya sendiri.
+          Terasa lebih personal dan berkesan dibanding broadcast biasa.
+        </p>
+      </div>
+      <div class="fitur-item">
+        <div class="fitur-icon">✏️</div>
+        <p class="fitur-title">Edit Kapan Saja</p>
+        <p class="fitur-desc">
+          Update data, foto, atau konten kapan saja lewat panel editor.
+          Perubahan langsung tampil di undangan tamu.
+        </p>
+      </div>
+      <div class="fitur-item">
+        <div class="fitur-icon">📊</div>
+        <p class="fitur-title">Kelola RSVP</p>
+        <p class="fitur-desc">
+          Tamu konfirmasi kehadiran langsung dari undangan.
+          Pantau statistik & export ke CSV kapan saja.
+        </p>
+      </div>
+      <div class="fitur-item">
+        <div class="fitur-icon">🎨</div>
+        <p class="fitur-title">Palet Warna Custom</p>
+        <p class="fitur-desc">
+          Pilih dari 6 palet warna siap pakai, atau atur sendiri.
+          Paket Premium bisa ekstrak warna otomatis dari foto.
+        </p>
+      </div>
+      <div class="fitur-item">
+        <div class="fitur-icon">🎵</div>
+        <p class="fitur-title">Musik Latar</p>
+        <p class="fitur-desc">
+          Tambahkan lagu favorit sebagai musik pengiring.
+          Tamu bisa mengaktifkan atau mematikannya sesuka hati.
+        </p>
+      </div>
+      <div class="fitur-item">
+        <div class="fitur-icon">📖</div>
+        <p class="fitur-title">Buku Tamu Digital</p>
+        <p class="fitur-desc">
+          Tamu meninggalkan ucapan & doa yang tampil secara real-time
+          di undangan — kenangan yang tersimpan selamanya.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PAKET ===================== -->
+  <section class="catalog-section" id="paket">
+    <h2 class="catalog-section-title">Pilih Paket</h2>
+    <p class="catalog-section-sub">
+      Dua paket sesuai kebutuhanmu. Keduanya bisa diedit sendiri lewat panel editor kapan saja.
+    </p>
+    <div class="paket-grid">
+
+      <!-- BASIC -->
+      <div class="paket-card">
+        <span class="paket-badge-catalog badge-basic">Basic</span>
+        <h3 class="paket-card-title">Ilustrasi</h3>
+        <p class="paket-card-desc">
+          Undangan elegan dengan ilustrasi vector mempelai. Cocok untuk tampilan bersih
+          tanpa foto asli.
+        </p>
+        <ul class="paket-fitur-list">
+          <li><span class="fitur-check">◆</span> Ilustrasi vector mempelai (6 pilihan)</li>
+          <li><span class="fitur-check">◆</span> Data mempelai & nama orang tua</li>
+          <li><span class="fitur-check">◆</span> Detail Akad Nikah & Resepsi</li>
+          <li><span class="fitur-check">◆</span> Quotes / Ayat Suci + terjemahan</li>
+          <li><span class="fitur-check">◆</span> Love Story mempelai</li>
+          <li><span class="fitur-check">◆</span> Countdown hitung mundur</li>
+          <li><span class="fitur-check">◆</span> Musik latar (URL)</li>
+          <li><span class="fitur-check">◆</span> Video prewed (YouTube embed)</li>
+          <li><span class="fitur-check">◆</span> Rekening & alamat Wedding Gift</li>
+          <li><span class="fitur-check">◆</span> Form RSVP + Buku Tamu digital</li>
+          <li><span class="fitur-check">◆</span> Daftar tamu + link personal per tamu</li>
+          <li><span class="fitur-check">◆</span> 6 pilihan palet warna + atur manual</li>
+          <li><span class="fitur-check">◆</span> Aktifkan/nonaktifkan section sesukamu</li>
+        </ul>
+        <a href="#order" class="btn-pesan btn-pesan-basic">Pesan Sekarang</a>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="paket-card paket-card-premium">
+        <span class="popular-tag">Terpopuler</span>
+        <span class="paket-badge-catalog badge-premium">Premium</span>
+        <h3 class="paket-card-title">Foto Asli</h3>
+        <p class="paket-card-desc">
+          Semua fitur Basic, plus foto mempelai asli dan galeri prewedding
+          untuk kenangan yang lebih personal dan berkesan.
+        </p>
+        <ul class="paket-fitur-list">
+          <li><span class="fitur-check">◆</span> Semua fitur paket Basic</li>
+          <li>
+            <span class="fitur-check fitur-check-purple">◆</span>
+            <span>
+              <span class="fitur-separator">+ Eksklusif Premium</span>
+              Foto mempelai asli (upload JPG/PNG)
+            </span>
+          </li>
+          <li><span class="fitur-check fitur-check-purple">◆</span> Galeri foto prewedding (maks. 6 foto, lightbox)</li>
+          <li><span class="fitur-check fitur-check-purple">◆</span> Peta lokasi custom (Google Maps embed)</li>
+          <li><span class="fitur-check fitur-check-purple">◆</span> Statistik RSVP + export ke CSV</li>
+          <li><span class="fitur-check fitur-check-purple">◆</span> Ekstrak palet warna otomatis dari foto</li>
+          <li><span class="fitur-check fitur-check-purple">◆</span> Custom slug URL undangan</li>
+        </ul>
+        <a href="#order" class="btn-pesan btn-pesan-premium">Pesan Sekarang</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== CARA PESAN ===================== -->
+  <section class="catalog-section catalog-section-dark">
+    <h2 class="catalog-section-title">Cara Pemesanan</h2>
+    <p class="catalog-section-sub">
+      Prosesnya cepat — undanganmu siap diisi dalam hitungan menit setelah pemesanan.
+    </p>
+    <div class="steps-grid">
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <p class="step-title">Hubungi Admin</p>
+        <p class="step-desc">
+          Pilih paket dan kirim pesan ke admin via WhatsApp.
+          Sertakan nama kedua mempelai.
+        </p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <p class="step-title">Terima Akses</p>
+        <p class="step-desc">
+          Admin membuat akun dan mengirimkan email & password login
+          langsung ke kamu via WhatsApp.
+        </p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <p class="step-title">Isi & Sesuaikan</p>
+        <p class="step-desc">
+          Login ke panel editor, isi data undangan, upload foto,
+          pilih warna, dan aktifkan section yang diinginkan.
+        </p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">04</div>
+        <p class="step-title">Sebarkan Link</p>
+        <p class="step-desc">
+          Salin link undangan dan kirim ke semua tamu.
+          Bisa tambah nama personal per tamu langsung dari editor.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA / ORDER ===================== -->
+  <section class="cta-section" id="order">
+    <div class="ornament-divider">
+      <div class="ornament-divider-line"></div>
+      <span class="ornament-divider-gem">✦</span>
+      <div class="ornament-divider-line"></div>
+    </div>
+    <h2 class="cta-title">Siap Memesan?</h2>
+    <p class="cta-desc">
+      Hubungi kami via WhatsApp untuk pemesanan atau pertanyaan tentang paket.
+      Kami siap membantu kamu.
+    </p>
+    <div class="cta-btns">
+      <a href="#" class="btn-wa" id="btn-wa-order" target="_blank" rel="noopener">
+        Pesan via WhatsApp
+      </a>
+      <a href="login.html" class="btn-cta-secondary">Sudah punya akun? Login</a>
+    </div>
+    <div class="ornament-divider" style="margin-top:56px">
+      <div class="ornament-divider-line"></div>
+      <span class="ornament-divider-gem">✦</span>
+      <div class="ornament-divider-line"></div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="catalog-footer">
+    <p class="catalog-footer-logo">Undangan Digital</p>
+    <p class="catalog-footer-tagline">Undangan Pernikahan Online yang Elegan</p>
+    <div class="catalog-footer-links">
+      <a href="login.html">Login Klien</a>
+      <a href="#paket">Paket</a>
+      <a href="#order">Pemesanan</a>
+    </div>
+    <p class="catalog-footer-copy">© 2026 Undangan Digital · Made with ♥</p>
+  </footer>
+
+  <script>
+    // =====================================================
+    // GANTI NOMOR WA DI SINI
+    // Format: 62 + nomor tanpa 0 di depan
+    // Contoh: 6281234567890 untuk 081234567890
+    // =====================================================
+    const WA_NUMBER  = '62XXXXXXXXXXX'
+    const WA_MESSAGE = 'Halo, saya mau pesan undangan digital.'
+
+    const btnWa = document.getElementById('btn-wa-order')
+    if (btnWa && WA_NUMBER !== '62XXXXXXXXXXX') {
+      btnWa.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WA_MESSAGE)}`
+    } else if (btnWa) {
+      btnWa.href = '#order'
+    }
+
+    // Smooth scroll untuk anchor link
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1)
+        const el = document.getElementById(id)
+        if (el) {
+          e.preventDefault()
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      })
+    })
+  </script>
+
 </body>
 </html>
