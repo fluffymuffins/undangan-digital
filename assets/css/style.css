@@ -51,12 +51,15 @@ body {
 }
 #music-btn:hover,
 #music-btn.playing { background: var(--gold); color: var(--bg); }
+#music-btn.playing { animation: pulse-ring 2s ease-out infinite; }
 
 /* ============================================
    COVER
    ============================================ */
 #cover {
-  min-height: 100vh;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,6 +68,13 @@ body {
   background:
     radial-gradient(ellipse at 50% 10%, rgba(201,169,110,0.07) 0%, transparent 65%),
     var(--bg);
+  transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.6s ease;
+  will-change: transform;
+}
+#cover.curtain-up {
+  transform: translateY(-100vh);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .cover-inner { max-width: 480px; width: 100%; }
@@ -86,9 +96,9 @@ body {
 }
 
 .nama-mempelai {
-  font-family: var(--serif);
+  font-family: 'Great Vibes', var(--serif);
   font-size: clamp(56px, 14vw, 88px);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1;
   color: var(--teks);
   margin: 12px 0;
@@ -216,11 +226,12 @@ body {
 }
 
 .mempelai-card h3 {
-  font-family: var(--serif);
-  font-size: 26px;
+  font-family: 'Great Vibes', var(--serif);
+  font-size: 38px;
   font-weight: 400;
   color: var(--gold-terang);
   margin-bottom: 8px;
+  line-height: 1.1;
 }
 
 .gelar {
@@ -576,17 +587,50 @@ body {
 }
 
 /* ============================================
+   KEYFRAMES
+   ============================================ */
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.5); }
+  70%  { box-shadow: 0 0 0 10px rgba(201, 169, 110, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(201, 169, 110, 0); }
+}
+
+@keyframes countFlip {
+  from { opacity: 0; transform: translateY(-40%) scaleY(0.6); }
+  to   { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+
+/* ============================================
    SCROLL REVEAL ANIMATION
    ============================================ */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Countdown flip-in animation */
+.countdown-num.flip-animate {
+  animation: countFlip 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  #cover { transition: opacity 0.2s !important; }
 }
 
 /* ============================================

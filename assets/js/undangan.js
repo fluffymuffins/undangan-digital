@@ -487,19 +487,14 @@ function bukaUndangan() {
   const cover  = document.getElementById('cover')
   const konten = document.getElementById('konten')
 
-  cover.style.transition = 'opacity 0.8s ease'
-  cover.style.opacity    = '0'
+  cover.classList.add('curtain-up')
 
   setTimeout(() => {
-    cover.style.display   = 'none'
+    cover.style.display = 'none'
     konten.classList.remove('hidden')
-    konten.style.opacity    = '0'
-    konten.style.transition = 'opacity 0.8s ease'
-    setTimeout(() => {
-      konten.style.opacity = '1'
-      initScrollReveal()
-    }, 50)
-  }, 800)
+    // Double rAF ensures browser paints before observer fires
+    requestAnimationFrame(() => requestAnimationFrame(() => initScrollReveal()))
+  }, 780)
 }
 
 // ============================================
@@ -522,7 +517,14 @@ function jalankanCountdown(targetISO) {
     const detik = Math.floor((selisih % 60000)    / 1000)
     const set = (id, val) => {
       const el = document.getElementById(id)
-      if (el) el.textContent = String(val).padStart(2, '0')
+      if (!el) return
+      const newVal = String(val).padStart(2, '0')
+      if (el.textContent !== newVal) {
+        el.classList.remove('flip-animate')
+        void el.offsetWidth // reflow to restart animation
+        el.textContent = newVal
+        el.classList.add('flip-animate')
+      }
     }
     set('cd-hari', hari); set('cd-jam', jam)
     set('cd-menit', menit); set('cd-detik', detik)
@@ -542,8 +544,15 @@ function initScrollReveal() {
         observer.unobserve(entry.target)
       }
     })
-  }, { threshold: 0.1 })
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+  }, { threshold: 0.12 })
+
+  document.querySelectorAll('.reveal').forEach(el => {
+    // Stagger siblings: each .reveal within the same parent gets incremental delay
+    const siblings = Array.from(el.parentElement.children).filter(c => c.classList.contains('reveal'))
+    const idx = siblings.indexOf(el)
+    if (idx > 0) el.style.transitionDelay = `${idx * 0.12}s`
+    observer.observe(el)
+  })
 }
 
 // ============================================
